@@ -22,12 +22,19 @@ from pyobidl.utils import sizeof_fmt
 def progress(dl:Downloader,filename:str,index:int,total:int,speed:int,time:int,args:tuple=None):
     print(f'{filename} {sizeof_fmt(index)}/{sizeof_fmt(total)} ({sizeof_fmt(speed)})',end='\r')
     pass
-    
-async def async_progress(dl:Downloader,filename:str,index:int,total:int,speed:int,time:int,args:tuple=None):
-    print(f'{filename} {sizeof_fmt(index)}/{sizeof_fmt(total)} ({sizeof_fmt(speed)})',end='\r')
-    pass
-    
+
 dl = Downloader(destpath='')
 ouptut = dl.download_url(url='https://mega.nz/#F!IlxWwQJY!ZkcrapwfMxOjhhGXn5jEqQ',progressfunc=progress)
-#ouptut = await dl.async_download_url(url='https://mega.nz/#F!IlxWwQJY!ZkcrapwfMxOjhhGXn5jEqQ',progressfunc=async_progress)
+```
+#Using async pyobidl in a Python script
+```
+from pyobidl.downloader import AsyncDownloader
+from pyobidl.utils import sizeof_fmt
+
+async def progress(dl:AsyncDownloader,filename:str,index:int,total:int,speed:int,time:int,args:tuple=None):
+    print(f'{filename} {sizeof_fmt(index)}/{sizeof_fmt(total)} ({sizeof_fmt(speed)})',end='\r')
+    pass
+
+dl = AsyncDownloader(destpath='')
+ouptut = await dl.download_url(url='https://mega.nz/#F!IlxWwQJY!ZkcrapwfMxOjhhGXn5jEqQ',progressfunc=progress)
 ```
