@@ -14,7 +14,7 @@ To install from the source with pip:
 ```
 pip install https://github.com/ObisoftDev/pyobidl/archive/master.zip
 ```
-#Using pyobidl in a Python script
+- Using pyobidl in a Python script
 ```
 from pyobidl.downloader import Downloader
 from pyobidl.utils import sizeof_fmt
@@ -26,7 +26,7 @@ def progress(dl:Downloader,filename:str,index:int,total:int,speed:int,time:int,a
 dl = Downloader(destpath='')
 ouptut = dl.download_url(url='https://mega.nz/#F!IlxWwQJY!ZkcrapwfMxOjhhGXn5jEqQ',progressfunc=progress)
 ```
-#Using async pyobidl in a Python script
+- Using async pyobidl in a Python script
 ```
 from pyobidl.downloader import AsyncDownloader
 from pyobidl.utils import sizeof_fmt
