@@ -12,7 +12,7 @@ Pyobidl is a fast library for downloading (googledrive,mega,mediafire,directurl)
 Pyobidl requires an installation of Python 3.6 or greater, as well as pip. (Pip is typically bundled with Python 
 To install from the source with pip:
 ```
-python -m pip install git+https://github.com/ObisoftDev/pyobidl
+pip install https://github.com/ObisoftDev/pyobidl/archive/master.zip
 ```
 #Using pyobidl in a Python script
 ```
