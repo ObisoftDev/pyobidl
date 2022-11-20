@@ -3,10 +3,10 @@ Python 3 library for downloading (googledrive,mega,mediafire,directurl)
 # Description
 Pyobidl is a fast library for downloading (googledrive,mega,mediafire,directurl) using requests,mega.py
 # Features v1.1.0
-Suport Mega Files and Folders Urls
-Suport Mediafire File Urls
-Suport Google Drive Files Urls
-Suport Direct Files Urls
+- Suport Mega Files and Folders Urls
+- Suport Mediafire File Urls
+- Suport Google Drive Files Urls
+- Suport Direct Files Urls
 # Quickstart & Installation
 Pyobidl requires an installation of Python 3.6 or greater, as well as pip. (Pip is typically bundled with Python 
 To install from the source with pip:
