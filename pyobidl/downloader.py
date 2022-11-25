@@ -51,16 +51,20 @@ class Downloader(object):
                     except:
                         info = None
                     if info:
-                        return mdl.download_url(url,dest_path=self.destpath,dest_filename=self.destpath+info['name'],progressfunc=progressfunc,args=args)
+                        output = mdl.download_url(url,dest_path=self.destpath,dest_filename=self.destpath+info['name'],progressfunc=progressfunc,args=args,self_in=self)
+                        if not self.stoping:
+                            return output
                     else:
                         mgfiles = megafolder.get_files_from_folder(url)
                         files = []
                         for fi in mgfiles:
+                            if self.stoping:break
                             url = fi['data']['g']
                             req = requests.get(url,allow_redirects=True,stream=True,proxies=setproxycu)
                             self.filename = fi['name']
-                            output = self._process_download(url,req,progressfunc=progressfunc,args=args)
+                            output = self._process_download(url,req,progressfunc=progressfunc,args=args,self_in=self)
                             files.append(output)
+                        if self.stoping:return None
                         if len(files>0):
                             return files
                     return None
@@ -155,7 +159,7 @@ class AsyncDownloader(object):
                     except:
                         info = None
                     if info:
-                        output = await mdl.async_download_url(url,dest_path=self.destpath,dest_filename=self.destpath+info['name'],progressfunc=progressfunc,args=args)
+                        output = await mdl.async_download_url(url,dest_path=self.destpath,dest_filename=self.destpath+info['name'],progressfunc=progressfunc,args=args,self_in=self)
                         if not self.stoping:
                             return output
                         return None
@@ -167,7 +171,7 @@ class AsyncDownloader(object):
                             url = fi['data']['g']
                             req = requests.get(url,allow_redirects=True,stream=True,proxies=setproxycu)
                             self.filename = fi['name']
-                            output = await self._process_download(url,req,progressfunc=progressfunc,args=args)
+                            output = await self._process_download(url,req,progressfunc=progressfunc,args=args,self_in=self)
                             files.append(output)
                         if self.stoping:
                             return None
