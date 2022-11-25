@@ -54,6 +54,7 @@ class Downloader(object):
                         output = mdl.download_url(url,dest_path=self.destpath,dest_filename=self.destpath+info['name'],progressfunc=progressfunc,args=args,self_in=self)
                         if not self.stoping:
                             return output
+                        return None
                     else:
                         mgfiles = megafolder.get_files_from_folder(url)
                         files = []
