@@ -633,7 +633,7 @@ class Mega:
         nodes = self.get_files()
         return self.get_folder_link(nodes[node_id])
 
-    def download_url(self, url, dest_path=None, dest_filename=None,progressfunc=None,args=()):
+    def download_url(self, url, dest_path=None, dest_filename=None,progressfunc=None,args=(),self_in=None):
         """
         Download a file by it's public url
         """
@@ -647,7 +647,8 @@ class Mega:
             dest_filename=dest_filename,
             is_public=True,
             progressfunc=progressfunc,
-            args=args
+            args=args,
+            self_in=self_in
         )
 
     def _download_file(self,
@@ -659,7 +660,8 @@ class Mega:
                        file=None,
                        progressfunc=None,
                        args=None,
-                       f_data=None):
+                       f_data=None,
+                       self_in=None):
         if file is None:
             if is_public:
                 file_key = base64_to_a32(file_key)
@@ -734,9 +736,11 @@ class Mega:
 
             for chunk_start, chunk_size in get_chunks(file_size):
                 chunk = input_file.read(chunk_size)
-                
+                self_post = self
+                if self_in:
+                    self_post = self_in
                 #funcion de progres
-                if self.stoping:break
+                if self_post.stoping:break
                 chunk_por += len(chunk)
                 size_per_second+=len(chunk);
                 tcurrent = time.time() - time_start
@@ -746,7 +750,7 @@ class Mega:
                     clock_time = (file_size - chunk_por) / (size_per_second)
                     if progressfunc:
                        file_name = str(file_name).split('/')[-1]
-                       progressfunc(self,file_name,chunk_por,file_size,size_per_second,clock_time,args)
+                       progressfunc(self_post,file_name,chunk_por,file_size,size_per_second,clock_time,args)
                        time_total = 0
                        size_per_second = 0
 
@@ -783,7 +787,7 @@ class Mega:
             shutil.move(temp_output_file.name, output_path)
             return output_path
 
-    async def async_download_url(self, url, dest_path=None, dest_filename=None,progressfunc=None,args=()):
+    async def async_download_url(self, url, dest_path=None, dest_filename=None,progressfunc=None,args=(),self_in=None):
         """
         Download a file by it's public url
         """
@@ -797,7 +801,8 @@ class Mega:
             dest_filename=dest_filename,
             is_public=True,
             progressfunc=progressfunc,
-            args=args
+            args=args,
+            self_in=self_in
         )
 
     async def _async_download_file(self,
@@ -809,7 +814,8 @@ class Mega:
                        file=None,
                        progressfunc=None,
                        args=None,
-                       f_data=None):
+                       f_data=None,
+                       self_in=None):
         if file is None:
             if is_public:
                 file_key = base64_to_a32(file_key)
@@ -884,9 +890,11 @@ class Mega:
 
             for chunk_start, chunk_size in get_chunks(file_size):
                 chunk = input_file.read(chunk_size)
-                
+                self_post = self
+                if self_in:
+                    self_post = self_in
                 #funcion de progres
-                if self.stoping:break
+                if self_post.stoping:break
                 chunk_por += len(chunk)
                 size_per_second+=len(chunk);
                 tcurrent = time.time() - time_start
@@ -896,7 +904,7 @@ class Mega:
                     clock_time = (file_size - chunk_por) / (size_per_second)
                     if progressfunc:
                        file_name = str(file_name).split('/')[-1]
-                       await progressfunc(self,file_name,chunk_por,file_size,size_per_second,clock_time,args)
+                       await progressfunc(self_post,file_name,chunk_por,file_size,size_per_second,clock_time,args)
                        time_total = 0
                        size_per_second = 0
 
