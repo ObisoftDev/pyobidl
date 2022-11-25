@@ -104,7 +104,8 @@ class Downloader(object):
                         size_per_second = 0
                     file_wr.write(chunk)
             file_wr.close()
-            return self.destpath+file_name
+            if not self.stoping:
+                return self.destpath+file_name
         return None
 
     def stop(self):self.stoping=True
@@ -207,7 +208,8 @@ class AsyncDownloader(object):
                         size_per_second = 0
                     file_wr.write(chunk)
             file_wr.close()
-            return self.destpath+file_name
+            if not self.stoping:
+                return self.destpath+file_name
         return None
 
     async def stop(self):
