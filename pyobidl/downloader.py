@@ -155,16 +155,22 @@ class AsyncDownloader(object):
                     except:
                         info = None
                     if info:
-                        return await mdl.async_download_url(url,dest_path=self.destpath,dest_filename=self.destpath+info['name'],progressfunc=progressfunc,args=args)
+                        output = await mdl.async_download_url(url,dest_path=self.destpath,dest_filename=self.destpath+info['name'],progressfunc=progressfunc,args=args)
+                        if not self.stoping:
+                            return output
+                        return None
                     else:
                         mgfiles = await megafolder.get_files_from_folder(url)
                         files = []
                         for fi in mgfiles:
+                            if self.stoping:break
                             url = fi['data']['g']
                             req = requests.get(url,allow_redirects=True,stream=True,proxies=setproxycu)
                             self.filename = fi['name']
                             output = await self._process_download(url,req,progressfunc=progressfunc,args=args)
                             files.append(output)
+                        if self.stoping:
+                            return None
                         if len(files>0):
                             return files
                     return None
