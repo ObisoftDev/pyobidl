@@ -79,7 +79,7 @@ def makeSafeFilename(inputFilename):
            ret += char
         else:
            if char==' ':
-              ret+=char
+              ret+=''
            else:
               ret += ''
     return ret
