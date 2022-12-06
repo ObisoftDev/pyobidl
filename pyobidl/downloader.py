@@ -21,7 +21,56 @@ class Downloader(object):
         self.url = ''
         self.progressfunc = None
         self.args = None
-
+        
+    def download_info(self,url='',proxies=None):
+        infos = []
+        self.url = url
+        req = None
+        setproxycu = None
+        if proxies:
+            setproxycu = proxies
+        if '.cu' not in url:
+            setproxycu = None
+        if 'mediafire' in url:
+                try:
+                    url = mediafire.get(url)
+                except:return None
+        elif 'drive.google' in url:
+                try:
+                    info = googledrive.get_info(url)
+                    self.filename = slugify(info['file_name'])
+                    url = info['file_url']
+                except:return None
+        elif 'mega.nz' in url:
+                try:
+                    mg = mega.Mega()
+                    mdl = mg.login()
+                    try:
+                        info = mdl.get_public_url_info(url)
+                    except:
+                        info = None
+                    if info:
+                        fname = info['name']
+                        fsize = info['size']
+                        infos.append({'fname':fname,'furl':url,'fsize':fsize})
+                        req = 0
+                    else:
+                        mgfiles = megafolder.get_files_from_folder(url)
+                        files = []
+                        for fi in mgfiles:
+                            url = fi['data']['g']
+                            fname = fi['name']
+                            fsize = fi['size']
+                            infos.append({'fname':fname,'furl':url,'fsize':fsize})
+                except Exception as ex:
+                    return None
+        if req is None:
+           req = requests.get(url,allow_redirects=True,stream=True,proxies=setproxycu)
+           fname = get_url_file_name(url,req)
+           fsize = req_file_size(req)
+           infos.append({'fname':fname,'furl':url,'fsize':fsize})
+        return infos
+        
     def download_url(self,url='',progressfunc=None,args=None,proxies=None):
         self.url = url
         self.progressfunc = progressfunc
