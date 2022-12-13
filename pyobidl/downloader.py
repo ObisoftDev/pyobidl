@@ -130,7 +130,7 @@ class Downloader(object):
             file_size = req_file_size(req)
             file_name = get_url_file_name(url,req)
             if self.filename!='':
-                self.filename = makeSafeFilename(file_name)
+                self.filename = makeSafeFilename(self.filename)
                 file_name = self.filename
             else:
                 file_name = makeSafeFilename(file_name)
@@ -240,7 +240,7 @@ class AsyncDownloader(object):
             file_size = req_file_size(req)
             file_name = get_url_file_name(url,req)
             if self.filename!='':
-                self.filename = makeSafeFilename(file_name)
+                self.filename = makeSafeFilename(self.filename)
                 file_name = self.filename
             else:
                 file_name = makeSafeFilename(file_name)
