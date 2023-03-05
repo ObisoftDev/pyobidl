@@ -68,7 +68,7 @@ class Downloader(object):
            req = requests.get(url,allow_redirects=True,stream=True,proxies=setproxycu)
            fname = get_url_file_name(url,req)
            fsize = req_file_size(req)
-           infos.append({'fname':fname,'furl':url,'fsize':fsize})
+           infos.append({'fname':fname,'furl':url,'fsize':fsize,'resp':req})
         return infos
         
     def download_url(self,url='',progressfunc=None,args=None,proxies=None):
