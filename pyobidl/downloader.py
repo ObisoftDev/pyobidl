@@ -52,7 +52,7 @@ class Downloader(object):
                     if info:
                         fname = info['name']
                         fsize = info['size']
-                        infos.append({'fname':fname,'furl':url,'fsize':fsize})
+                        infos.append({'fname':fname,'furl':url,'fsize':fsize,'iter':mdl.download_iter_url(url)})
                         req = 0
                     else:
                         mgfiles = megafolder.get_files_from_folder(url)
